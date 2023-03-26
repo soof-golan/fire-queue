@@ -2,6 +2,8 @@ import styles from './page.module.css'
 import SignInButton from "@/components/SignInButton";
 import prisma from "@/prismaClient";
 import getBetterServerSession from "@/auth/getBetterServerSession";
+import {ClientComponent} from "@/components/TestTrpc";
+
 
 export default async function Home() {
   const session = await getBetterServerSession()
@@ -29,6 +31,7 @@ export default async function Home() {
       <div>
         You have {user?.ownedEvents?.length} events.
       </div>
+      <ClientComponent/>
     </main>
   )
 }
