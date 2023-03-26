@@ -22,6 +22,8 @@ model BurnerEvent {
   registrations UserEventRegistration[]
   createdAt     DateTime                @default(now())
   updatedAt     DateTime                @updatedAt
+  owner         User                    @relation(fields: [ownerId], references: [id])
+  ownerId       String
 }
 
 model FormField {
@@ -95,13 +97,14 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  ownedEvents   BurnerEvent[]
 }
 
 model VerificationToken {
