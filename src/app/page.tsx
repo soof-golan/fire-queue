@@ -1,34 +1,25 @@
 import styles from './page.module.css'
 import SignInButton from "@/app/components/SignInButton";
-import {getServerSession} from "next-auth";
 import prisma from "@/prismaClient";
-import { authOptions } from "@/pages/api/auth/[...nextauth]"
+import getBetterServerSession from "@/auth/getBetterServerSession";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions)
-  if (!session || !session.user || !session.user.email) {
+  const session = await getBetterServerSession()
+  if (!session || !session.user || !session.user.id) {
     return (
       <main className={styles.main}>
         <SignInButton/>
       </main>
     )
   }
-  const user = await prisma.user.findUnique({
+  const user = await prisma.user.findUniqueOrThrow({
     where: {
-      email: session.user.email
+      id: session.user.id,
     },
     include: {
       ownedEvents: true,
     }
   })
-
-  if (!user) {
-    return (
-      <main className={styles.main}>
-        <SignInButton/>
-      </main>
-    )
-  }
 
   return (
     <main className={styles.main}>
