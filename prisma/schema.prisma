@@ -9,3 +9,59 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// The BurnerEvent model represents a single event that users can sign up to
+// This name is mostly a joke that references the fact that this
+// service is targeted at "burn" events
+model BurnerEvent {
+  id            String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
+  date          DateTime
+  description   String
+  formFields    FormField[]
+  registrations UserEventRegistration[]
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+}
+
+model FormField {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String
+  type              FormFieldType
+  required          Boolean
+  BurnerEvent       BurnerEvent?        @relation(fields: [burnerEventId], references: [id])
+  burnerEventId     String?             @db.Uuid
+  FormFieldResponse FormFieldResponse[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+}
+
+enum FormFieldType {
+  TEXT
+  EMAIL
+}
+
+model FormFieldResponse {
+  id                    String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  formField             FormField             @relation(fields: [formFieldId], references: [id])
+  formFieldId           String                @db.Uuid
+  value                 String
+  userEventRegistration UserEventRegistration @relation(fields: [registrationId], references: [id])
+  registrationId        String                @db.Uuid
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+
+  @@unique([formFieldId, registrationId])
+}
+
+model UserEventRegistration {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  event             BurnerEvent         @relation(fields: [eventId], references: [id])
+  eventId           String              @db.Uuid
+  email             String
+  FormFieldResponse FormFieldResponse[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@unique([eventId, email])
+}
