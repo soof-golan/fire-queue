@@ -1,9 +1,7 @@
 import NextAuth, {AuthOptions} from "next-auth"
 import EmailProvider from "next-auth/providers/email"
 import {PrismaAdapter} from "@next-auth/prisma-adapter"
-import {PrismaClient} from "@prisma/client"
-
-const prisma = new PrismaClient()
+import prisma from "@/prismaClient";
 
 
 export const authOptions: AuthOptions = {
@@ -21,6 +19,21 @@ export const authOptions: AuthOptions = {
       from: process.env.EMAIL_FROM
     }),
   ],
+  callbacks: {
+    session: async ({session, user}) => {
+      if (session?.user && user) {
+        // This add session.user.id
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: user.id
+          }
+        }
+      }
+      return session
+    },
+  }
 };
 
 export default NextAuth(authOptions)
