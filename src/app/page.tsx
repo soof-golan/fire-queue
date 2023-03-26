@@ -1,5 +1,5 @@
 import styles from './page.module.css'
-import SignInButton from "@/app/components/SignInButton";
+import SignInButton from "@/components/SignInButton";
 import prisma from "@/prismaClient";
 import getBetterServerSession from "@/auth/getBetterServerSession";
 
