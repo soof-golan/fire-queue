@@ -13,6 +13,7 @@ specifiers:
   '@types/react-dom': 18.0.11
   eslint: 8.36.0
   eslint-config-next: 13.2.4
+  moment: ^2.29.4
   next: 13.2.4
   next-auth: ^4.20.1
   nodemailer: ^6.9.1
@@ -36,6 +37,7 @@ dependencies:
   '@types/react-dom': 18.0.11
   eslint: 8.36.0
   eslint-config-next: 13.2.4_j4766f7ecgqbon3u7zlxn5zszu
+  moment: 2.29.4
   next: 13.2.4_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.20.1_3tbpwx46tlrk4rci3doelizria
   nodemailer: 6.9.1
@@ -1689,6 +1691,10 @@ packages:
 
   /minimist/1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+    dev: false
+
+  /moment/2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
     dev: false
 
   /ms/2.1.2:
