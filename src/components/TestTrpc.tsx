@@ -2,11 +2,20 @@
 import trpcClient from "@/utils/trpcClient";
 
 export const ClientComponent = trpcClient.withTRPC(() => {
-  const hello = trpcClient.hello.useQuery({text: 'client'});
+  const sanity = trpcClient.healthcheck.useQuery();
+  const mutation = trpcClient.event.create.useMutation();
+  const createEvent = async () => {
+    await mutation.mutate({
+      name: 'test',
+      description: 'test',
+    })
+  };
+
   return (
     <div>
-      Greeting: {hello.data?.greeting}
-      <button onClick={() => hello.refetch()}>Refetch</button>
+      {sanity.data === 'yay!' && <p>Sanity check: OK</p>}
+      <button onClick={createEvent}  disabled={mutation.isLoading}>Create</button>
+      {mutation.error && <p>Something went wrong! {mutation.error.message}</p>}
     </div>
   )
 });
