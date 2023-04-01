@@ -1,4 +1,4 @@
-import './globals.css'
+import "@picocss/pico/css/pico.css";
 import AuthContext from "@/components/AuthContext";
 import AuthStatus from "@/components/AuthStatus";
 
