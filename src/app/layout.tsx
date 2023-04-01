@@ -1,3 +1,4 @@
+import "@/app/global.css";
 import "@picocss/pico/css/pico.css";
 import AuthContext from "@/components/AuthContext";
 import Navbar from "@/components/Navbar";
